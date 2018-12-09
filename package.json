@@ -1,0 +1,25 @@
+{
+  "name": "electron-app-demo",
+  "version": "0.0.1",
+  "description": "test project",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangmengHB/electron-app-demo.git"
+  },
+  "author": "Meng Wang <wangmeng_hb@163.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wangmengHB/electron-app-demo/issues"
+  },
+  "homepage": "https://github.com/wangmengHB/electron-app-demo#readme",
+  "devDependencies": {
+    "electron": "^3.0.10",
+    "electron-squirrel-startup": "^1.0.0",
+    "file-api": "^0.10.4",
+    "filereader": "^0.10.3"
+  }
+}
