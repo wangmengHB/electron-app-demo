@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 
 let win;
 
@@ -14,7 +14,7 @@ function createWindow () {
   });
   win.loadURL('http://127.0.0.1:8080');
   // win.loadFile('index.html');
-  // win.webContents.openDevTools();
+  win.webContents.openDevTools();
 
   win.on('close', () => {
     win = null;
@@ -46,39 +46,46 @@ app.on('activate', () => {
 
 
 // 监听渲染进程发送的消息
-ipcMain.on('asynchronous-message', (event, file) => {
-  // const FileAPI = require('file-api');
-  // const File = FileAPI.File
-  // , FileList = FileAPI.FileList
-  // , FileReader = FileAPI.FileReader;
-  // // const FileReader = require('filereader');
-  // const reader = new FileReader();
+ipcMain.on('open-file', (event) => {  
+  dialog.showOpenDialog(
+    win,
+    {
+      title: 'Select File',
+      properties: ['openFile'],
+      filters: [
+        {
+          name: 'Files', 
+          extensions: [
+            'txt', 
+            'css', 
+            'html', 
+            'js', 
+            'vue', 
+            'json', 
+            'py', 
+            'c'
+          ]
+        }
+      ]
+    },
+    function (fileNames) {
 
-  // reader.addEventListener('loadend', function (evt) {
-  //   event.sender.send('asynchronous-reply', evt.target.result );
-  // });
-  // reader.readAsText(new File(file))
+        // check if invalid filename
+        if (fileNames === undefined) {
+            return;
+        };
 
-    console.log(file)
-    event.sender.send('asynchronous-reply', 'main process msg' );
+        // Read file contents otherwise
+        let fileName = fileNames[0];
+
+      
+        event.returnValue = fileName;
+        
+    }
+  )
 
 
-
-  // console.log(arg);
-
-  // //命令行调用curl，下载天气信息
-  // var exec = require('child_process').exec;
-  // var cmdStr = 'curl http://www.weather.com.cn/data/sk/101020100.html';
-  // exec(cmdStr, function (err, stdout, stderr) {
-  //   if (err) {
-  //     console.log('get weather api error:' + stderr);
-  //   } else {
-  //     // var data = JSON.parse(stdout);
-  //     // console.log(data);
-  //     // 发送消息到渲染进程
-  //     event.sender.send('asynchronous-reply', "主进程收到消息" + arg );
-  //   }
-  // });
+  
 
 });
 

@@ -4,7 +4,7 @@
   "description": "test project",
   "main": "index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron index.js --disable-http-cache"
   },
   "repository": {
     "type": "git",

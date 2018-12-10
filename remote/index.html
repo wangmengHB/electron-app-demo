@@ -2,35 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
-
-    <style>
-    .menu {
-      width: 120px;
-      box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
-      position: relative;
-      display: none;      
-    }
-
-    .menu .menu-options {
-      list-style: none;
-      padding: 10px 0;
-
-      
-    }
-    .menu .menu-options .menu-option {
-      font-weight: 500;
-      font-size: 14px;
-      padding: 10px 40px 10px 20px;
-      cursor: pointer;
-    }
-
-    .menu .menu-options .menu-option:hover {
-      background: rgba(0, 0, 0, 0.2);
-    }
-
-
-    </style>
+    <title>远程打开文件</title>
   </head>
   <body>
 
@@ -38,22 +10,10 @@
 
     <div>
       <p>this page is runned on web server</p>
-      <input type="file" id="file"/>
+      <button id="file"> Open File</button>
     </div>
 
-    <button id="context">右键菜单</button>
 
-    <div class="menu">
-      <ul class="menu-options">
-        <li class="menu-option">Back</li>
-        <li class="menu-option">Reload</li>
-        <li class="menu-option">Save</li>
-        <li class="menu-option">Save As</li>
-        <li class="menu-option">Inspect</li>
-      </ul>
-    </div>
-
-    
 
   </body>
 
@@ -61,43 +21,16 @@
     // 引入 ipcRenderer 模块。
     const inputEle = document.getElementById('file');
 
-    file.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      ipcRenderer.send('asynchronous-message', file);
+    file.addEventListener('click', (e) => {
+      const filename = ipc.sendSync('open-file');
+      alert(filename);
     })
 
-
-    let menuVisible = false;
-
-    const menu = document.querySelector(".menu");
-    const toggleMenu = command => {
-      menu.style.display = command === "show" ? "block" : "none";
-      menuVisible = !menuVisible;
-    };
-
-    const setPosition = ({ top, left }) => {
-      menu.style.left = `${left}px`;
-      menu.style.top = `${top}px`;
-      toggleMenu("show");
-    };
     
-
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      const origin = {
-        left: e.pageX,
-        top: e.pageY
-      };
-      setPosition(origin);
-    })
-
-
-
-    
-    const ipcRenderer = require('electron').ipcRenderer;
+    const ipc = require('electron').ipcRenderer;
     
     // 监听主进程返回的消息
-    ipcRenderer.on('asynchronous-reply', function (event, arg) {
+    ipc.on('asynchronous-reply', function (event, arg) {
       alert(arg);
     });
 
