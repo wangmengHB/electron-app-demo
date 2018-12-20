@@ -2,9 +2,31 @@
   "name": "electron-app-demo",
   "version": "0.0.1",
   "description": "test project",
-  "main": "index.js",
+  "main": "app/main.js",
   "scripts": {
-    "start": "electron index.js --disable-http-cache"
+    "start": "electron ./app/main.js --disable-http-cache",
+    "build": "build -mwl --x64"
+  },
+  "build": {
+    "appId": "com.your-company.electron-app-name",  
+    "copyright": "Copyright © 2018 YOUR-NAME",  
+    "productName": "My ELECTRON APP", 
+    "electronVersion": "3.0.10",
+    "mac": {
+      "category": "public.app-category.developer-tools"   
+    },
+    "win": {
+      "target": [ "nsis" ]
+    },
+    "dmg": {
+      "title": "XXX installer",
+      "backgroundColor": "#FFF",
+      "icon": "./assets/mac/icon.png.icns",
+      "iconSize": 128
+    },
+    "linux": {
+      "target": [ "AppImage", "deb" ]
+    }
   },
   "repository": {
     "type": "git",
@@ -18,6 +40,7 @@
   "homepage": "https://github.com/wangmengHB/electron-app-demo#readme",
   "devDependencies": {
     "electron": "^3.0.10",
+    "electron-builder": "^20.38.3",
     "electron-squirrel-startup": "^1.0.0",
     "file-api": "^0.10.4",
     "filereader": "^0.10.3"

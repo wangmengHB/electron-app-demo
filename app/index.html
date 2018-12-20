@@ -34,6 +34,13 @@
       alert(arg);
     });
 
+    setTimeout(() => {
+      let note = new Notification('hello', {body: 'this is body'});
+      note.onclick = () => {
+        alert('click;')
+      }
+    }, 3000)
+
     
 
   </script>
